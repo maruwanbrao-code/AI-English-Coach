@@ -16,6 +16,7 @@
     <nav class="tabs" id="mainNav">
       <button class="tab-btn active" data-view="home">หน้าแรก</button>
       <button class="tab-btn" data-view="dashboard">แผนการเรียน</button>
+      <button class="tab-btn" data-view="vocab">คลังคำศัพท์</button>
       <button class="tab-btn" data-view="progress">ความคืบหน้า</button>
     </nav>
   </div>
@@ -202,6 +203,26 @@
     </div>
   </section>
 
+  <!-- VOCABULARY BANK (5,000 words) -->
+  <section id="view-vocab" class="view">
+    <div class="card">
+      <h2>คลังคำศัพท์ 5,000 คำ</h2>
+      <p class="muted">รวมคำศัพท์ภาษาอังกฤษที่ใช้บ่อย แบ่งตามหมวดหมู่และระดับ CEFR พร้อมคำแปลภาษาไทยและปุ่มฟังเสียง — พิมพ์ค้นหา หรือกรองตามหมวดหมู่/ระดับได้เลย</p>
+      <div class="vocab-filter-bar">
+        <input type="text" id="vocabSearchInput" class="vocab-search-input" placeholder="ค้นหาคำศัพท์ (อังกฤษหรือไทย)..." />
+        <select id="vocabCategoryFilter" class="vocab-filter-select"><option value="">ทุกหมวดหมู่</option></select>
+        <select id="vocabLevelFilter" class="vocab-filter-select"><option value="">ทุกระดับ</option></select>
+      </div>
+      <p class="muted" id="vocabResultCount"></p>
+      <div class="vocab5000-grid" id="vocab5000Grid"></div>
+      <div class="vocab-pagination" id="vocabPagination">
+        <button id="btnVocabPrevPage" class="btn btn-secondary">← ก่อนหน้า</button>
+        <span id="vocabPageLabel" class="muted"></span>
+        <button id="btnVocabNextPage" class="btn btn-secondary">ถัดไป →</button>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="site-footer">
@@ -216,6 +237,18 @@
 <script src="js/curriculum-beginner.js"></script>
 <script src="js/curriculum-intermediate.js"></script>
 <script src="js/curriculum-advanced.js"></script>
+
+<!-- Vocabulary bank (5,000 words) -->
+<script src="js/vocab-part1.js"></script>
+<script src="js/vocab-part2.js"></script>
+<script src="js/vocab-part3.js"></script>
+<script src="js/vocab-part4.js"></script>
+<script src="js/vocab-part5.js"></script>
+<script src="js/vocab-part6.js"></script>
+<script src="js/vocab-part7.js"></script>
+<script src="js/vocab-part8.js"></script>
+<script src="js/vocab-part9.js"></script>
+<script src="js/vocab-part10.js"></script>
 
 <!-- App logic -->
 <script src="js/supabaseClient.js"></script>
