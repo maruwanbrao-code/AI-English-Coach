@@ -15,8 +15,8 @@
 const SUPABASE_CONFIG = {
   // Paste your Supabase project values here to enable cloud backup.
   // Leave both as-is (or blank) to run in local-only mode.
-  url: "",      // e.g. "https://xxxxxxxxxxxx.supabase.co"
-  anonKey: ""   // e.g. "eyJhbGciOi..."
+  url: "https://qfmdmdvebozamueadmxq.supabase.co",      // e.g. "https://xxxxxxxxxxxx.supabase.co"
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmbWRtZHZlYm96YW11ZWFkbXhxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2MzAzNDUsImV4cCI6MjEwNTIwNjM0NX0.9-cokfctTKx14cVcO1m_6GMcC08INZHOle2C38L97LA"   // e.g. "eyJhbGciOi..."
 };
 
 const AppDB = (function () {
