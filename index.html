@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI English Coach — ครูสอนภาษาอังกฤษส่วนตัว</title>
+<meta name="description" content="ทดสอบวัดระดับภาษาอังกฤษ แล้วรับแผนเรียนรู้ 3 เดือนที่ออกแบบมาสำหรับคุณโดยเฉพาะ" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">🎓 <span>AI English Coach</span></div>
+    <nav class="tabs" id="mainNav">
+      <button class="tab-btn active" data-view="home">หน้าแรก</button>
+      <button class="tab-btn" data-view="dashboard">แผนการเรียน</button>
+      <button class="tab-btn" data-view="progress">ความคืบหน้า</button>
+    </nav>
+  </div>
+</header>
+
+<main id="app" class="container">
+
+  <!-- HOME -->
+  <section id="view-home" class="view active">
+    <div class="hero card">
+      <h1>เรียนภาษาอังกฤษให้เก่งขึ้นภายใน 3 เดือน</h1>
+      <p>ก่อนเริ่มเรียน ระบบจะให้คุณทำ <strong>แบบทดสอบวัดระดับ (Placement Test)</strong> ก่อน เพื่อประเมินระดับภาษาอังกฤษของคุณตามมาตรฐาน CEFR (A1–C2) แล้วจึงจัดแผนการเรียนรู้ 12 สัปดาห์ที่เหมาะกับระดับของคุณโดยเฉพาะ — มีบทเรียน คำศัพท์ การอ่าน การพูด และแบบทดสอบท้ายสัปดาห์ที่ต้องผ่านก่อนไปสัปดาห์ถัดไป</p>
+      <div class="hero-actions">
+        <button id="btnStartTest" class="btn btn-primary">เริ่มแบบทดสอบวัดระดับ</button>
+        <button id="btnGoDashboard" class="btn btn-secondary" hidden>ไปที่แผนการเรียนของฉัน</button>
+      </div>
+      <p class="hero-note" id="homeStatusNote"></p>
+    </div>
+
+    <div class="grid3">
+      <div class="card feature">
+        <div class="feature-icon">📝</div>
+        <h3>1. ทดสอบวัดระดับ</h3>
+        <p>36 ข้อ ครอบคลุมไวยากรณ์ คำศัพท์ และการอ่าน ตั้งแต่ระดับ A1 ถึง C2</p>
+      </div>
+      <div class="card feature">
+        <div class="feature-icon">🧭</div>
+        <h3>2. รับแผนเฉพาะคุณ</h3>
+        <p>ระบบประมวลผลและจัดสรรเข้าหลักสูตร 12 สัปดาห์ที่เหมาะกับระดับจริงของคุณ</p>
+      </div>
+      <div class="card feature">
+        <div class="feature-icon">🚀</div>
+        <h3>3. เรียนและฝึกทุกสัปดาห์</h3>
+        <p>ไวยากรณ์ คำศัพท์ อ่าน ฟัง พูด และทำแบบทดสอบผ่าน 70% เพื่อปลดล็อกสัปดาห์ถัดไป</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLACEMENT TEST -->
+  <section id="view-test" class="view">
+    <div class="card">
+      <div id="testIntro">
+        <h2>แบบทดสอบวัดระดับภาษาอังกฤษ</h2>
+        <p>ทั้งหมด 36 ข้อ ใช้เวลาประมาณ 20-30 นาที ตอบตามความรู้จริงของคุณ ไม่ต้องเปิดหาคำตอบ เพื่อผลการประเมินที่แม่นยำ</p>
+        <button id="btnBeginTest" class="btn btn-primary">เริ่มทำแบบทดสอบ</button>
+      </div>
+
+      <div id="testRunner" hidden>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="testProgressBar"></div>
+        </div>
+        <p class="muted" id="testProgressLabel"></p>
+        <h3 id="testQuestionText"></h3>
+        <div id="testPassage" class="passage-box" hidden></div>
+        <div id="testChoices" class="choice-list"></div>
+        <div class="row-actions">
+          <button id="btnPrevQ" class="btn btn-secondary">ก่อนหน้า</button>
+          <button id="btnNextQ" class="btn btn-primary">ถัดไป</button>
+        </div>
+      </div>
+
+      <div id="testResult" hidden>
+        <h2>ผลการทดสอบของคุณ</h2>
+        <div class="result-level" id="resultLevelBadge"></div>
+        <p id="resultSummary"></p>
+        <div id="resultBreakdown" class="level-breakdown"></div>
+        <button id="btnSeePlan" class="btn btn-primary">ดูแผนการเรียนของฉัน</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="view-dashboard" class="view">
+    <div class="card" id="dashboardEmpty">
+      <h2>ยังไม่มีแผนการเรียน</h2>
+      <p>กรุณาทำแบบทดสอบวัดระดับก่อน เพื่อรับแผนการเรียนรู้ 12 สัปดาห์ที่เหมาะกับคุณ</p>
+      <button class="btn btn-primary" id="btnGoTestFromDash">เริ่มแบบทดสอบวัดระดับ</button>
+    </div>
+
+    <div id="dashboardContent" hidden>
+      <div class="card dash-header">
+        <div>
+          <h2 id="dashTrackName"></h2>
+          <p id="dashTrackDesc" class="muted"></p>
+        </div>
+        <div class="dash-stats">
+          <div class="stat"><span class="stat-num" id="statWeeksPassed">0</span><span class="stat-label">สัปดาห์ที่ผ่าน</span></div>
+          <div class="stat"><span class="stat-num" id="statAvgScore">-</span><span class="stat-label">คะแนนเฉลี่ย</span></div>
+        </div>
+        <button id="btnRetakeTest" class="btn btn-ghost">ทำแบบทดสอบใหม่</button>
+      </div>
+
+      <div class="week-grid" id="weekGrid"></div>
+    </div>
+  </section>
+
+  <!-- LESSON -->
+  <section id="view-lesson" class="view">
+    <div class="card">
+      <button class="btn btn-ghost" id="btnBackToDash">← กลับไปแผนการเรียน</button>
+      <h2 id="lessonTitle"></h2>
+      <p class="level-chip" id="lessonLevelChip"></p>
+
+      <div class="lesson-block">
+        <h3>🎯 เป้าหมายของสัปดาห์นี้</h3>
+        <ul id="lessonObjectives"></ul>
+      </div>
+
+      <div class="lesson-block">
+        <h3>📘 ไวยากรณ์: <span id="grammarPoint"></span></h3>
+        <p id="grammarExplain"></p>
+        <ul id="grammarExamples" class="example-list"></ul>
+      </div>
+
+      <div class="lesson-block">
+        <h3>🧠 คำศัพท์</h3>
+        <div class="vocab-grid" id="vocabGrid"></div>
+      </div>
+
+      <div class="lesson-block">
+        <h3>📖 การอ่าน</h3>
+        <div class="passage-box" id="readingPassage"></div>
+        <div id="readingQuestions"></div>
+      </div>
+
+      <div class="lesson-block">
+        <h3>🗣️ ฝึกพูด</h3>
+        <p id="speakingPrompt" class="muted"></p>
+        <div class="speaking-box">
+          <p class="target-phrase" id="targetPhrase"></p>
+          <div class="row-actions">
+            <button id="btnPlayPhrase" class="btn btn-secondary">🔊 ฟังตัวอย่าง</button>
+            <button id="btnRecordPhrase" class="btn btn-secondary">🎤 พูดตาม</button>
+          </div>
+          <p id="speakingFeedback" class="muted"></p>
+        </div>
+      </div>
+
+      <div class="lesson-block center">
+        <button id="btnStartQuiz" class="btn btn-primary btn-lg">ทำแบบทดสอบประจำสัปดาห์ →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="view-quiz" class="view">
+    <div class="card">
+      <div id="quizRunner">
+        <h2 id="quizTitle"></h2>
+        <p class="muted">ต้องตอบถูกอย่างน้อย 70% เพื่อผ่านและปลดล็อกสัปดาห์ถัดไป</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="quizProgressBar"></div>
+        </div>
+        <p class="muted" id="quizProgressLabel"></p>
+        <h3 id="quizQuestionText"></h3>
+        <div id="quizChoices" class="choice-list"></div>
+        <div class="row-actions">
+          <button id="btnPrevQuizQ" class="btn btn-secondary">ก่อนหน้า</button>
+          <button id="btnNextQuizQ" class="btn btn-primary">ถัดไป</button>
+        </div>
+      </div>
+
+      <div id="quizResult" hidden>
+        <h2 id="quizResultTitle"></h2>
+        <p id="quizResultScore" class="result-level"></p>
+        <div id="quizReview" class="quiz-review"></div>
+        <div class="row-actions">
+          <button id="btnRetryQuiz" class="btn btn-secondary">ทำใหม่อีกครั้ง</button>
+          <button id="btnBackToDashFromQuiz" class="btn btn-primary">กลับไปแผนการเรียน</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS / HISTORY -->
+  <section id="view-progress" class="view">
+    <div class="card">
+      <h2>ประวัติและความคืบหน้า</h2>
+      <div id="progressStorageNote" class="note"></div>
+      <h3>ผลทดสอบวัดระดับ</h3>
+      <div id="placementHistory"></div>
+      <h3>ความคืบหน้ารายสัปดาห์</h3>
+      <div id="weekHistory"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>AI English Coach · เนื้อหาออกแบบสำหรับผู้เรียนภาษาไทย · ข้อมูลของคุณถูกเก็บไว้ในเบราว์เซอร์นี้ <span id="footerSyncNote"></span></p>
+</footer>
+
+<!-- Supabase JS (optional cloud sync — app works fully offline without it) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<!-- Content data -->
+<script src="js/testBank.js"></script>
+<script src="js/curriculum-beginner.js"></script>
+<script src="js/curriculum-intermediate.js"></script>
+<script src="js/curriculum-advanced.js"></script>
+
+<!-- App logic -->
+<script src="js/supabaseClient.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
