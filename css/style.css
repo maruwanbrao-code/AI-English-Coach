@@ -410,13 +410,11 @@ h1, h2, h3 {
 }
 
 .example-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
+  display: block;
+  padding: 10px 12px;
   background: var(--secondary);
   border-radius: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .speak-btn {
@@ -456,6 +454,80 @@ h1, h2, h3 {
   color: var(--text-muted);
   font-size: 0.85rem;
   margin-top: 6px;
+  font-style: italic;
+}
+
+.vocab-example-th {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  margin-top: 2px;
+}
+
+/* ---------------- Highlighted vocab / grammar examples ---------------- */
+.hl-vocab {
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 700;
+  font-style: normal;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.hl-grammar {
+  background: #dcfce7;
+  color: #166534;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.example-en-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.example-en {
+  flex: 1;
+}
+
+.example-th {
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+/* ---------------- Story / short-tale block ---------------- */
+.story-title {
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-size: 1.05rem;
+  margin: 4px 0 12px;
+}
+
+.story-sentence {
+  background: var(--secondary);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.story-en-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.story-en {
+  flex: 1;
+  font-weight: 500;
+}
+
+.story-th {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 4px;
   font-style: italic;
 }
 
