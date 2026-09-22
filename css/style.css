@@ -563,6 +563,22 @@ h1, h2, h3 {
   color: var(--primary-dark);
 }
 
+.speaking-progress {
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+/* The speaking box now has 4 buttons (prev / play / record / next) instead
+   of 2 -- let them wrap on narrow screens instead of squeezing into one row. */
+.speaking-box .row-actions {
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+.speaking-box .row-actions .btn-ghost {
+  flex: 0 0 auto;
+}
+
 /* ---------------- Quiz review ---------------- */
 .quiz-review {
   margin-top: 16px;
