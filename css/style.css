@@ -1,16 +1,19 @@
 :root {
-  --bg: #f6f7fb;
+  --bg: #f5f3ff;
   --card-bg: #ffffff;
   --text: #1f2430;
   --text-muted: #6b7280;
-  --primary: #4f46e5;
-  --primary-dark: #4338ca;
-  --secondary: #eef2ff;
+  --primary: #7c3aed;
+  --primary-dark: #6d28d9;
+  --secondary: #f3e8ff;
   --accent: #16a34a;
+  --accent-teal: #0891b2;
+  --accent-orange: #f97316;
+  --accent-pink: #ec4899;
   --danger: #dc2626;
   --border: #e5e7eb;
   --radius: 14px;
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 14px rgba(0, 0, 0, 0.04);
+  --shadow: 0 1px 3px rgba(124, 58, 237, 0.08), 0 6px 18px rgba(124, 58, 237, 0.08);
   font-family: "Segoe UI", "Noto Sans Thai", Tahoma, Arial, sans-serif;
 }
 
@@ -20,7 +23,9 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100vh;
+  background: linear-gradient(160deg, #eef2ff 0%, #f5f3ff 32%, #fdf2f8 68%, #fff7ed 100%);
+  background-attachment: fixed;
   color: var(--text);
   line-height: 1.6;
 }
@@ -43,11 +48,19 @@ h1, h2, h3 {
 
 /* ---------------- Top bar ---------------- */
 .topbar {
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: none;
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.08);
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+.topbar::after {
+  content: "";
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent-pink), var(--accent-orange), var(--accent-teal));
 }
 
 .topbar-inner {
@@ -83,9 +96,10 @@ h1, h2, h3 {
 }
 
 .tab-btn.active {
-  background: var(--secondary);
-  color: var(--primary);
-  font-weight: 600;
+  background: linear-gradient(90deg, var(--primary), var(--accent-pink));
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.35);
 }
 
 /* ---------------- Cards & layout ---------------- */
@@ -111,8 +125,13 @@ h1, h2, h3 {
   margin-bottom: 16px;
 }
 
+.hero {
+  background: linear-gradient(135deg, #ede9fe 0%, #fdf2f8 100%);
+}
+
 .hero h1 {
   font-size: 1.6rem;
+  color: var(--primary-dark);
 }
 
 .hero-actions {
@@ -139,8 +158,27 @@ h1, h2, h3 {
 }
 
 .feature-icon {
-  font-size: 2rem;
-  margin-bottom: 8px;
+  font-size: 1.8rem;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--secondary);
+}
+
+.feature:nth-of-type(1) .feature-icon {
+  background: #dbeafe;
+}
+
+.feature:nth-of-type(2) .feature-icon {
+  background: #fce7f3;
+}
+
+.feature:nth-of-type(3) .feature-icon {
+  background: #ffedd5;
 }
 
 /* ---------------- Buttons ---------------- */
@@ -159,17 +197,22 @@ h1, h2, h3 {
 }
 
 .btn-primary {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent-pink));
   color: #fff;
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
+  filter: brightness(1.06);
 }
 
 .btn-secondary {
   background: var(--secondary);
   color: var(--primary-dark);
+  border: 1.5px solid transparent;
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
 }
 
 .btn-secondary.recording {
@@ -222,7 +265,7 @@ h1, h2, h3 {
 
 .progress-bar {
   height: 100%;
-  background: var(--primary);
+  background: linear-gradient(90deg, var(--accent-teal), var(--primary), var(--accent-pink));
   width: 0%;
   transition: width 0.2s ease;
 }
@@ -264,13 +307,13 @@ h1, h2, h3 {
 
 .choice-btn.correct {
   border-color: var(--accent);
-  background: #ecfdf3;
+  background: #dcfce7;
   font-weight: 600;
 }
 
 .choice-btn.incorrect {
   border-color: var(--danger);
-  background: #fef2f2;
+  background: #fee2e2;
 }
 
 .result-level {
@@ -363,10 +406,12 @@ h1, h2, h3 {
 
 .week-card.status-unlocked {
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12), var(--shadow);
 }
 
 .week-card.status-passed {
   border-color: var(--accent);
+  background: linear-gradient(135deg, #ffffff, #ecfdf3);
 }
 
 .week-card-top {
@@ -406,6 +451,22 @@ h1, h2, h3 {
   border-radius: 999px;
   font-size: 0.85rem;
   margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.level-chip-beginner {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.level-chip-intermediate {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.level-chip-advanced {
+  background: #ede9fe;
+  color: #5b21b6;
 }
 
 .lesson-block {
@@ -490,6 +551,109 @@ h1, h2, h3 {
   font-weight: 700;
   padding: 0 4px;
   border-radius: 4px;
+}
+
+/* ---------------- Grammar sentence-part color coding ----------------
+   Each example sentence is broken into subject / verb / object /
+   complement / modifier / grammar-marker parts, each in its own bright
+   color, so students can SEE the sentence structure at a glance instead
+   of one flat highlight color. */
+.role-subject {
+  background: #dbeafe;
+  color: #1e3a8a;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.role-verb {
+  background: #ffe4e6;
+  color: #9f1239;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.role-object {
+  background: #dcfce7;
+  color: #166534;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.role-complement {
+  background: #ede9fe;
+  color: #5b21b6;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.role-modifier {
+  background: #ffedd5;
+  color: #9a3412;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.role-marker {
+  background: #cffafe;
+  color: #155e75;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 4px;
+  text-decoration: underline wavy #0891b2;
+}
+
+.grammar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 8px 0 14px;
+}
+
+.legend-label {
+  font-size: 0.82rem;
+}
+
+.legend-chip {
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.legend-chip.role-subject {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.legend-chip.role-verb {
+  background: #ffe4e6;
+  color: #9f1239;
+}
+
+.legend-chip.role-object {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.legend-chip.role-complement {
+  background: #ede9fe;
+  color: #5b21b6;
+}
+
+.legend-chip.role-modifier {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.legend-chip.role-marker {
+  background: #cffafe;
+  color: #155e75;
 }
 
 .example-en-row {
@@ -725,11 +889,23 @@ h1, h2, h3 {
   border-radius: 999px;
   background: var(--secondary);
   color: var(--primary-dark);
+  font-weight: 600;
 }
 
+/* Deterministic per-category color set (see categoryColorClass() in
+   app.js) so the 24 vocab categories don't all render as one flat color. */
+.tag-color-0 { background: #dbeafe; color: #1e3a8a; }
+.tag-color-1 { background: #fce7f3; color: #9d174d; }
+.tag-color-2 { background: #dcfce7; color: #166534; }
+.tag-color-3 { background: #ffedd5; color: #9a3412; }
+.tag-color-4 { background: #ede9fe; color: #5b21b6; }
+.tag-color-5 { background: #cffafe; color: #155e75; }
+.tag-color-6 { background: #fef9c3; color: #854d0e; }
+.tag-color-7 { background: #ffe4e6; color: #9f1239; }
+
 .vocab5000-tag-level {
-  background: #eef;
-  font-weight: 600;
+  background: linear-gradient(90deg, var(--primary), var(--accent-pink));
+  color: #fff;
 }
 
 .vocab-pagination {
