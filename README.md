@@ -7,11 +7,17 @@
    - Beginner (A1 → A2)
    - Intermediate (B1 → B2)
    - Advanced (C1 → C2)
-3. แต่ละสัปดาห์มี **บทเรียนจริง** (ไวยากรณ์ + คำอธิบายภาษาไทย, คำศัพท์พร้อมเสียงอ่าน, การอ่านพร้อมคำถาม, การฝึกพูดด้วยไมโครโฟน) และ **แบบทดสอบท้ายสัปดาห์** ที่ต้องทำได้ถูกอย่างน้อย 70% จึงจะปลดล็อกสัปดาห์ถัดไป (mastery-based progression)
+3. แต่ละสัปดาห์มี **บทเรียนจริง** ที่ครบเครื่อง:
+   - **ไวยากรณ์**: คำอธิบายภาษาไทย + ประโยคตัวอย่างที่ **ไฮไลต์สีเขียว** ตรงจุดที่เป็นไวยากรณ์ พร้อมคำแปลไทยกำกับทุกประโยค
+   - **คำศัพท์**: คำศัพท์พร้อมเสียงอ่าน + ประโยคตัวอย่างที่ **ไฮไลต์สีส้ม** ตรงคำศัพท์เป้าหมาย พร้อมคำแปลไทยของประโยคตัวอย่าง
+   - **นิทานชวนอ่าน**: เรื่องสั้น/นิทานสนุก ๆ ประจำสัปดาห์ที่ระดับความยากตรงกับบทเรียน พร้อมคำแปลไทยทีละประโยค (อ่านเล่นเพื่อความคุ้นเคย ไม่มีคำถามให้ตอบ)
+   - การอ่านพร้อมคำถามท้ายบท และการฝึกพูดด้วยไมโครโฟน
+   - **แบบทดสอบท้ายสัปดาห์** ที่ต้องทำได้ถูกอย่างน้อย 70% จึงจะปลดล็อกสัปดาห์ถัดไป (mastery-based progression)
 4. ใช้งานได้ทั้งบนมือถือและคอมพิวเตอร์ (responsive) และ **ไม่ต้องสมัครสมาชิก/ล็อกอิน** — ข้อมูลผูกกับเบราว์เซอร์ผ่าน UUID ที่สุ่มเก็บไว้ใน `localStorage`
-5. เป็น **static site ล้วน ๆ** (HTML/CSS/JS ธรรมดา ไม่มี build step) จึงรันบน **GitHub Pages** ได้ทันที และเชื่อมกับ **Supabase** แบบเสริม (optional) เพื่อสำรองผลสอบ/ความคืบหน้าไว้บนคลาวด์
+5. เป็น **static site ล้วน ๆ** (HTML/CSS/JS ธรรมดา ไม่มี build step) จึงรันบน **GitHub Pages** ได้ทันที และเชื่อมกับ **Firebase (Cloud Firestore)** แบบเสริม (optional) เพื่อสำรองผลสอบ/ความคืบหน้าไว้บนคลาวด์
+6. มี **คลังคำศัพท์ 5,000 คำ** แยกตามหมวดหมู่ (24 หมวด) และระดับ CEFR (A1–C2) พร้อมอีโมจิประกอบคำ ค้นหา/กรองได้ และกดฟังเสียงอ่านได้ทุกคำ
 
-ไม่ตั้งค่า Supabase ก็ใช้งานได้ครบ 100% ทันที (ข้อมูลจะอยู่ในเบราว์เซอร์เท่านั้น) — Supabase มีไว้เผื่ออยากให้ข้อมูลไม่หายตอนล้าง cache หรืออยากดึงข้อมูลไปดูที่อื่น
+ไม่ตั้งค่า Firebase ก็ใช้งานได้ครบ 100% ทันที (ข้อมูลจะอยู่ในเบราว์เซอร์เท่านั้น) — Firebase มีไว้เผื่ออยากให้ข้อมูลไม่หายตอนล้าง cache หรืออยากดึงข้อมูลไปดูที่อื่น
 
 ---
 
@@ -26,9 +32,12 @@ english-teacher-app/
 │   ├── curriculum-beginner.js    หลักสูตร Beginner 12 สัปดาห์ (A1→A2)
 │   ├── curriculum-intermediate.js หลักสูตร Intermediate 12 สัปดาห์ (B1→B2)
 │   ├── curriculum-advanced.js    หลักสูตร Advanced 12 สัปดาห์ (C1→C2)
-│   ├── supabaseClient.js         ชั้นเก็บข้อมูล (localStorage + Supabase แบบเสริม)
-│   └── app.js                    ตรรกะแอปทั้งหมด: routing, การตรวจข้อสอบ, การล็อก/ปลดล็อกสัปดาห์, TTS/speech recognition
-└── supabase/schema.sql          SQL สำหรับสร้างตารางและ RLS policy บน Supabase (รันครั้งเดียว, ไม่บังคับ)
+│   ├── vocab-part1.js … vocab-part10.js   คลังคำศัพท์ 5,000 คำ (ไฟล์ละ 500 คำ, รวม 24 หมวดหมู่ + ระดับ A1–C2)
+│   ├── firebaseClient.js         ชั้นเก็บข้อมูล (localStorage + Firebase Firestore แบบเสริม)
+│   ├── supabaseClient.js         (เวอร์ชันเก่า ไม่ได้โหลดแล้ว — เก็บไว้อ้างอิง)
+│   └── app.js                    ตรรกะแอปทั้งหมด: routing, การตรวจข้อสอบ, การล็อก/ปลดล็อกสัปดาห์, TTS/speech recognition, คลังคำศัพท์ (ค้นหา/กรอง/แบ่งหน้า)
+├── firebase/firestore.rules     Security rules สำหรับ Cloud Firestore (วางครั้งเดียว, ไม่บังคับ)
+└── supabase/schema.sql          (เวอร์ชันเก่า ไม่ได้ใช้แล้ว — เก็บไว้อ้างอิง)
 ```
 
 ---
@@ -42,7 +51,7 @@ english-teacher-app/
 ## วิธี deploy ขึ้น GitHub Pages
 
 1. สร้าง repository ใหม่บน GitHub (public หรือ private ก็ได้ — ถ้า private ต้องมี GitHub Pro เพื่อเปิด Pages)
-2. อัปโหลดไฟล์ทั้งหมดในโฟลเดอร์นี้ขึ้น repo (คงโครงสร้างโฟลเดอร์เดิมไว้ เช่น `css/`, `js/`, `supabase/` ต้องอยู่ใน root ของ repo)
+2. อัปโหลดไฟล์ทั้งหมดในโฟลเดอร์นี้ขึ้น repo (คงโครงสร้างโฟลเดอร์เดิมไว้ เช่น `css/`, `js/`, `firebase/` ต้องอยู่ใน root ของ repo)
    ```bash
    git init
    git add .
@@ -55,33 +64,58 @@ english-teacher-app/
 4. ในหัวข้อ **Build and deployment** เลือก Source = **Deploy from a branch**, Branch = **main**, Folder = **/(root)** แล้วกด **Save**
 5. รอสัก 1-2 นาที แล้วเว็บจะขึ้นที่ `https://<your-username>.github.io/<your-repo>/`
 
-จบแล้ว — ใช้งานได้ทันทีในโหมดออฟไลน์/local-only (ไม่มี Supabase ก็ได้)
+จบแล้ว — ใช้งานได้ทันทีในโหมดออฟไลน์/local-only (ไม่มี Firebase ก็ได้)
 
 ---
 
-## วิธีเปิดใช้งาน Supabase (ไม่บังคับ แต่แนะนำถ้าอยากสำรองข้อมูล)
+## วิธีเปิดใช้งาน Firebase (ไม่บังคับ แต่แนะนำถ้าอยากสำรองข้อมูล)
 
-1. สมัคร/ล็อกอินที่ https://supabase.com แล้วกด **New project** (เลือก region ใกล้ ๆ เช่น Singapore) — รอสักครู่ให้โปรเจกต์สร้างเสร็จ
-2. ไปที่แท็บ **SQL Editor** ในโปรเจกต์ → New query → คัดลอกเนื้อหาทั้งหมดของไฟล์ `supabase/schema.sql` มาวาง → กด **Run**
-   - จะได้ตาราง `profiles`, `test_results`, `progress` พร้อม Row Level Security ที่เปิดให้ anon key อ่าน/เขียนได้ (ดูคำอธิบาย trade-off ด้านความปลอดภัยในคอมเมนต์บนสุดของไฟล์ — เหมาะกับแอปส่วนตัวที่ไม่มีระบบล็อกอิน)
-3. ไปที่ **Project Settings → API** แล้วคัดลอกค่า 2 ค่า:
-   - **Project URL** (เช่น `https://xxxxxxxxxxxx.supabase.co`)
-   - **anon public key** (ขึ้นต้นด้วย `eyJ...`)
-4. เปิดไฟล์ `js/supabaseClient.js` แล้วแก้ค่าที่ต้นไฟล์:
+> **ทำไมเปลี่ยนจาก Supabase:** แผนฟรีของ Supabase จะหยุดโปรเจกต์ (pause) อัตโนมัติถ้าไม่มีการใช้งานราว 1 สัปดาห์ ส่วนแผนฟรี **Spark** ของ Firebase ไม่มีการหยุดโปรเจกต์เพราะไม่ได้ใช้งาน โควตาฟรีของ Firestore (1 GiB, อ่าน 50,000 / เขียน 20,000 ครั้งต่อวัน) เหลือเฟือสำหรับแอปนี้ และแผน Spark ไม่ต้องผูกบัตรเครดิต
+
+1. ไปที่ https://console.firebase.google.com → **Create a project** (ตั้งชื่ออะไรก็ได้, ปิด Google Analytics ได้) — ใช้แผน **Spark (ฟรี)** ไม่ต้องอัปเกรด
+2. เปิดระบบ **Anonymous sign-in** (ผู้เรียนไม่ต้องล็อกอินเอง แอปจะล็อกอินแบบไม่ระบุตัวตนให้เบื้องหลัง):
+   **Build → Authentication → Get started → Sign-in method → Anonymous → Enable → Save**
+3. สร้างฐานข้อมูล: **Build → Firestore Database → Create database**
+   - ถ้าถามเรื่อง edition ให้เลือก **Standard edition**
+   - Location: เลือก `asia-southeast1 (Singapore)` (เปลี่ยนภายหลังไม่ได้)
+   - เลือก **Start in production mode**
+4. ไปที่แท็บ **Rules** ของ Firestore → ลบของเดิมทิ้ง → คัดลอกเนื้อหาทั้งหมดของไฟล์ `firebase/firestore.rules` มาวาง → กด **Publish**
+   - rules นี้ให้แต่ละเบราว์เซอร์อ่าน/เขียนได้เฉพาะข้อมูลของตัวเอง (`students/{uid}`) เท่านั้น ปลอดภัยกว่าแบบ Supabase เดิมที่เปิดให้ anon key อ่าน/เขียนได้ทุกแถว
+5. ลงทะเบียนเว็บแอป: **Project settings (รูปเฟือง) → General → Your apps → ไอคอน `</>` (Web)** → ตั้งชื่อ → **Register app** (ไม่ต้องติ๊ก Firebase Hosting) แล้วคัดลอกอ็อบเจ็กต์ `firebaseConfig` ที่ขึ้นมา
+6. เปิดไฟล์ `js/firebaseClient.js` แล้ววางค่าลงใน `FIREBASE_CONFIG` ที่ต้นไฟล์:
    ```js
-   const SUPABASE_CONFIG = {
-     url: "https://xxxxxxxxxxxx.supabase.co",
-     anonKey: "eyJhbGciOi..."
+   const FIREBASE_CONFIG = {
+     apiKey: "AIzaSy...",
+     authDomain: "your-project.firebaseapp.com",
+     projectId: "your-project",
+     storageBucket: "your-project.firebasestorage.app",
+     messagingSenderId: "1234567890",
+     appId: "1:1234567890:web:abcdef..."
    };
    ```
-5. commit + push ไฟล์นี้ขึ้น GitHub อีกครั้ง — Pages จะ deploy อัตโนมัติ
-6. เปิดเว็บ แล้วดูที่ท้ายหน้า (footer) หรือหน้า "ความคืบหน้า" — ถ้าขึ้นว่า "ซิงก์กับ Supabase ✅" แปลว่าเชื่อมสำเร็จแล้ว
+   (ค่าเหล่านี้เปิดเผยในโค้ดหน้าเว็บได้ตามปกติ ความปลอดภัยมาจาก security rules ในข้อ 4)
+7. commit + push ขึ้น GitHub อีกครั้ง — Pages จะ deploy อัตโนมัติ
+8. เปิดเว็บ แล้วดูที่ท้ายหน้า (footer) — ถ้าขึ้นว่า **"ซิงก์กับ Firebase ✅"** แปลว่าเชื่อมสำเร็จแล้ว ข้อมูลจะไปอยู่ใน Firestore ที่ collection `students`
+   - ครั้งแรกที่เชื่อมสำเร็จ แอปจะอัปโหลดผลสอบ/ความคืบหน้าที่มีอยู่แล้วในเบราว์เซอร์ขึ้นไปให้อัตโนมัติ (รวมถึงที่ทำไว้ช่วงที่ Supabase ถูกหยุด) — ไม่ต้องย้ายข้อมูลจาก Supabase เอง
 
-ถ้าไม่กรอกค่าทั้งสอง หรือกรอกผิด แอปจะ **ไม่พัง** — แค่ทำงานในโหมด local-only เหมือนเดิม (มีการดักจับ error ไว้ทุกจุด)
+ถ้าไม่กรอกค่า หรือกรอกผิด แอปจะ **ไม่พัง** — แค่ทำงานในโหมด local-only เหมือนเดิม (มีการดักจับ error ไว้ทุกจุด)
 
-### ถ้าอยากใช้ Firebase แทน
+### ถ้า footer ขึ้นว่า "⚠️ เชื่อม Firebase ไม่สำเร็จ"
 
-โค้ดทั้งหมดออกแบบให้ชั้นเก็บข้อมูลอยู่ในไฟล์เดียวคือ `js/supabaseClient.js` (ผ่าน object ชื่อ `AppDB`) ส่วน `app.js` เรียกใช้แค่ฟังก์ชัน `AppDB.init()`, `AppDB.loadState()`, `AppDB.savePlacement()`, `AppDB.initProgressForTrack()`, `AppDB.recordQuizAttempt()`, `AppDB.resetAll()`, `AppDB.isCloudEnabled()` เท่านั้น — ถ้าต้องการเปลี่ยนไปใช้ Firebase (Firestore) แทน Supabase สามารถเขียนไฟล์ใหม่ที่ export `AppDB` ด้วยฟังก์ชันชื่อเดียวกันแต่เรียก Firestore SDK ข้างในแทน แล้วสลับ `<script>` ที่โหลดในไฟล์ `index.html` โดยไม่ต้องแตะ `app.js` เลย
+เปิด DevTools (F12) → แท็บ Console จะมีข้อความ `[AppDB] ...` บอกสาเหตุ ที่พบบ่อย:
+- `auth/operation-not-allowed` → ยังไม่ได้เปิด Anonymous ในข้อ 2
+- `permission-denied` → ยังไม่ได้ Publish rules ในข้อ 4 หรือวางไม่ครบ
+- `auth/unauthorized-domain` → ไปที่ **Authentication → Settings → Authorized domains** แล้วเพิ่ม `<your-username>.github.io`
+
+### โครงสร้างข้อมูลใน Firestore
+
+```
+students/{uid}                          studentId, currentTrack, currentLevel, updatedAt
+students/{uid}/testResults/{resultId}   levelAwarded, trackId, startWeek, score, totalQuestions, byLevel, takenAt
+students/{uid}/progress/{trackId}_w{N}  trackId, weekNumber, status, bestScore, attempts, lastAttemptAt, skippedByPlacement
+```
+
+ชั้นเก็บข้อมูลทั้งหมดอยู่ในไฟล์ `js/firebaseClient.js` (object ชื่อ `AppDB`) — `app.js` เรียกผ่านฟังก์ชัน `AppDB.*` เท่านั้น ถ้าอยากเปลี่ยน backend อีกในอนาคต เขียนไฟล์ใหม่ที่มีฟังก์ชันชื่อเดียวกันแล้วสลับ `<script>` ใน `index.html` ได้เลย
 
 ---
 
@@ -98,9 +132,51 @@ english-teacher-app/
 
 ## การแก้ไข/เพิ่มเนื้อหา
 
-เนื้อหาบทเรียนทั้งหมดเป็นอ็อบเจ็กต์ JavaScript ธรรมดาในไฟล์ `js/curriculum-*.js` — เปิดไฟล์แก้ข้อความ คำศัพท์ หรือโจทย์ได้โดยตรง โครงสร้างของแต่ละสัปดาห์เหมือนกันทั้ง 3 แทร็ก (ดูตัวอย่างจากสัปดาห์แรกในไฟล์ใดก็ได้) ประกอบด้วย `objectives`, `grammar`, `vocabulary`, `reading`, `speaking`, `quiz`
+เนื้อหาบทเรียนทั้งหมดเป็นอ็อบเจ็กต์ JavaScript ธรรมดาในไฟล์ `js/curriculum-*.js` — เปิดไฟล์แก้ข้อความ คำศัพท์ หรือโจทย์ได้โดยตรง โครงสร้างของแต่ละสัปดาห์เหมือนกันทั้ง 3 แทร็ก (ดูตัวอย่างจากสัปดาห์แรกในไฟล์ใดก็ได้) ประกอบด้วย `objectives`, `grammar`, `vocabulary`, `reading`, `story`, `speaking`, `quiz`
+
+รูปแบบของ `grammar.examples` และ `vocabulary` ที่รองรับการไฮไลต์สีและคำแปล:
+
+```js
+grammar: {
+  point: "...",
+  explanationTh: "...",
+  examples: [
+    { en: "I am a student.", th: "ฉันเป็นนักเรียน", highlight: "am" } // "am" จะถูกไฮไลต์สีเขียวในหน้าเว็บ
+  ]
+},
+vocabulary: [
+  { en: "hello", th: "สวัสดี", example: "Hello, how are you?", exampleTh: "สวัสดี คุณเป็นอย่างไรบ้าง?" } // "Hello" จะถูกไฮไลต์สีส้มในประโยคตัวอย่างโดยอัตโนมัติ
+],
+story: {
+  title: "ชื่อเรื่องภาษาไทย",
+  sentences: [
+    { en: "This is Max.", th: "นี่คือแม็กซ์" } // แสดงทีละประโยคพร้อมคำแปลและปุ่มฟังเสียง
+  ]
+}
+```
+
+- `highlight` ต้องเป็นข้อความที่ปรากฏอยู่จริงใน `en` ของประโยคนั้น (ตรงตัวอักษร) ระบบจะค้นหาและห่อด้วย `<span class="hl-grammar">` ให้อัตโนมัติ
+- คำในช่อง `example` ของคำศัพท์จะถูกไฮไลต์อัตโนมัติด้วย `<span class="hl-vocab">` โดยค้นหาคำใน `en` แบบไม่สนตัวพิมพ์เล็ก-ใหญ่ ไม่ต้องใส่ markup เอง
+- ส่วน `story` เป็นทางเลือก (optional) — ถ้าไม่มี key นี้ในสัปดาห์ไหน หน้าเว็บจะซ่อนบล็อก "นิทานชวนอ่าน" ของสัปดาห์นั้นไปเอง
+
+## คลังคำศัพท์ 5,000 คำ (หน้า "คลังคำศัพท์")
+
+ข้อมูลคำศัพท์ทั้งหมดอยู่ในไฟล์ `js/vocab-part1.js` ถึง `js/vocab-part10.js` (ไฟล์ละ 500 คำ ประกาศตัวแปร global ชื่อ `VOCAB_PART_1` ถึง `VOCAB_PART_10`) แต่ละคำเป็นอ็อบเจ็กต์รูปแบบ:
+
+```js
+{ en: "apple", th: "แอปเปิล", category: "อาหารและเครื่องดื่ม", level: "A1", emoji: "🍎" }
+```
+
+- `en` / `th` — คำศัพท์ภาษาอังกฤษและคำแปลไทย (ต้องไม่ซ้ำกันข้ามไฟล์ — ระบบจะรวมทุกไฟล์เป็นคลังเดียวตอนโหลดหน้าเว็บ)
+- `category` — หมวดหมู่ (มี 24 หมวดคงที่ เช่น "สัตว์", "อาหารและเครื่องดื่ม", "เทคโนโลยีและการสื่อสาร" ฯลฯ)
+- `level` — ระดับ CEFR หนึ่งใน `A1, A2, B1, B2, C1, C2`
+- `emoji` — อีโมจิที่ใช้แทนรูปภาพประกอบคำ (เลือกใช้อีโมจิแทนรูปจริงเพื่อให้ไฟล์มีขนาดเล็กและโหลดเร็ว)
+
+หน้าคลังคำศัพท์รองรับค้นหา (พิมพ์คำอังกฤษหรือไทย), กรองตามหมวดหมู่, กรองตามระดับ, และแบ่งหน้า (60 คำ/หน้า) พร้อมปุ่ม 🔊 ให้ฟังเสียงอ่านคำนั้น ๆ
+
+ถ้าต้องการเพิ่ม/แก้คำศัพท์ ให้เปิดไฟล์ `js/vocab-part*.js` ไฟล์ใดก็ได้แล้วเพิ่ม/แก้อ็อบเจ็กต์ในอาร์เรย์โดยตรง (ต้องคงรูปแบบ 5 คีย์ `en, th, category, level, emoji` และเลือก `category`/`level` จากรายการที่กำหนดไว้ด้านบนเท่านั้น มิฉะนั้นตัวกรองในหน้าเว็บจะไม่รู้จักคำนั้น)
 
 ## ข้อจำกัดที่ควรรู้
 
 - ฟีเจอร์ฝึกพูด (🎤 พูดตาม) ใช้ Web Speech API ซึ่งรองรับดีที่สุดใน Google Chrome (คอมพิวเตอร์/Android) — Safari/Firefox อาจไม่รองรับหรือรองรับไม่เต็มที่ แอปจะแจ้งเตือนหากเบราว์เซอร์ไม่รองรับ
-- โหมด Supabase ไม่มีระบบล็อกอิน จึงใช้ policy แบบเปิดกว้าง (อ่าน/เขียนได้ทุกแถวผ่าน anon key) เหมาะกับการใช้งานส่วนตัวเท่านั้น ไม่เหมาะกับการเปิดให้คนอื่นใช้ร่วมกันจำนวนมากโดยไม่ปรับปรุงระบบสิทธิ์ก่อน
+- โหมด Firebase ใช้ Anonymous Auth — uid ผูกกับเบราว์เซอร์นั้น ถ้าล้างข้อมูลเว็บไซต์/เปลี่ยนเครื่อง จะได้ uid ใหม่ (ข้อมูลเก่ายังอยู่ใน Firestore แต่เบราว์เซอร์ใหม่มองไม่เห็น) — ยังไม่มีระบบซิงก์ข้ามเครื่อง
