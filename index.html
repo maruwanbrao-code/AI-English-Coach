@@ -239,8 +239,11 @@
   <p>AI English Coach · เนื้อหาออกแบบสำหรับผู้เรียนภาษาไทย · ข้อมูลของคุณถูกเก็บไว้ในเบราว์เซอร์นี้ <span id="footerSyncNote"></span></p>
 </footer>
 
-<!-- Supabase JS (optional cloud sync — app works fully offline without it) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!-- Firebase JS SDK (optional cloud backup — app works fully offline without it).
+     "compat" builds expose a global `firebase` object, so no build step is needed. -->
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
 
 <!-- Twemoji (renders vocab emoji as real colorful image files from a CDN,
      instead of relying on each OS's own emoji font — also fixes emoji
@@ -266,7 +269,7 @@
 <script src="js/vocab-part10.js"></script>
 
 <!-- App logic -->
-<script src="js/supabaseClient.js"></script>
+<script src="js/firebaseClient.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
