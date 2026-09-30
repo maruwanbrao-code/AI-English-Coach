@@ -1,0 +1,39 @@
+rules_version = '2';
+
+// AI English Coach — Cloud Firestore security rules
+// ------------------------------------------------------------
+// Paste this into Firebase console → Firestore Database → Rules → Publish.
+//
+// The app signs every browser in with Firebase Anonymous Auth, so each
+// browser has its own uid. These rules only let a browser read/write the
+// documents under its own students/{uid} path — nobody can read or
+// overwrite another learner's data, even though the web config (apiKey)
+// is public in the front-end code.
+//
+// Data layout:
+//   students/{uid}                          profile (currentTrack, currentLevel, updatedAt)
+//   students/{uid}/testResults/{resultId}   placement test results
+//   students/{uid}/progress/{trackId_wN}    per-week status / best score / attempts
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /students/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      match /testResults/{resultId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
+
+      match /progress/{progressId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid
+          && (request.method == 'delete'
+              || request.resource.data.status in ['locked', 'unlocked', 'passed']);
+      }
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
